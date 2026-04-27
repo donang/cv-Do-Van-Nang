@@ -86,8 +86,8 @@ export default function Hero() {
           </p>
 
           <h1 className="text-[2rem] min-[380px]:text-[2.3rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.2rem] xl:text-[5.8rem] font-extrabold tracking-tight whitespace-nowrap z-10 flex flex-row items-center justify-center lg:justify-start" style={{ lineHeight: '1.1' }}>
-            <span className="text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)] mr-2 md:mr-4">ĐỖ VĂN</span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff2a85] via-[#b266ff] to-[#00c3ff] drop-shadow-[0_4px_15px_rgba(255,42,133,0.5)]">
+            <span className="text-white drop-shadow-none md:drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)] mr-2 md:mr-4">ĐỖ VĂN</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff2a85] via-[#b266ff] to-[#00c3ff] drop-shadow-none md:drop-shadow-[0_4px_15px_rgba(255,42,133,0.5)]">
               NĂNG
             </span>
           </h1>
@@ -124,7 +124,7 @@ export default function Hero() {
         <div className="flex flex-wrap justify-center lg:justify-start items-center gap-4 mt-5 w-full">
           <button 
             onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} 
-            className="bg-gradient-to-r from-[#ff2a85] to-[#7000FF] hover:from-[#ff1475] hover:to-[#5e00db] text-white rounded-full px-7 xl:px-8 py-3 shadow-[0_10px_30px_-10px_rgba(255,42,133,0.8)] text-[11px] xl:text-[12px] font-bold uppercase tracking-widest transition-all duration-300 hover:scale-[1.03] flex items-center group"
+            className="bg-gradient-to-r from-[#ff2a85] to-[#7000FF] hover:from-[#ff1475] hover:to-[#5e00db] text-white rounded-full px-7 xl:px-8 py-3 shadow-none md:shadow-[0_10px_30px_-10px_rgba(255,42,133,0.8)] text-[11px] xl:text-[12px] font-bold uppercase tracking-widest transition-all duration-300 hover:scale-[1.03] flex items-center group"
           >
             XEM DỰ ÁN <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
           </button>
@@ -228,7 +228,7 @@ export default function Hero() {
           <div className="absolute top-[20%] left-[20%] w-[120%] h-[120%] rounded-full bg-gradient-to-br from-[#ff2a85]/15 via-[#7000FF]/10 to-transparent blur-[60px] z-[0] -translate-x-[20%] -translate-y-[20%]" />
 
           {/* Lớp z-0: Nền tối giới hạn của Vòng tròn (Thu nhỏ vào trong để bật Avatar ra ngoài) */}
-          <div className="absolute inset-0 scale-[0.80] translate-y-[12%] rounded-full bg-[#050510] z-[0] shadow-[0_0_120px_rgba(255,42,133,0.15)] transition-all duration-500">
+          <div className="absolute inset-0 scale-[0.80] translate-y-[12%] rounded-full bg-[#050510] z-[0] shadow-none md:shadow-[0_0_120px_rgba(255,42,133,0.15)] transition-all duration-500">
             <div className="absolute inset-0 rounded-full blur-[20px] opacity-30 bg-gradient-to-br from-[#ff2a85] via-[#b266ff] to-[#00c3ff]"></div>
           </div>
 
@@ -237,7 +237,7 @@ export default function Hero() {
           {/* Burger - Góc Phải Trên (Thu nhỏ về 24%) */}
           <div className="absolute top-[5%] -right-[5%] w-[24%] z-10 transition-transform duration-300 hover:scale-[1.08] hover:z-50"
             style={{ animation: 'custom-float-1 7s ease-in-out infinite' }}>
-            <div className="p-[2.5px] rounded-[18px] bg-gradient-to-tr from-[#ffffff] via-[#ff9a00] to-[#ffffff] shadow-[0_20px_40px_rgba(0,0,0,0.8),0_0_30px_rgba(255,145,77,0.3)] origin-center"
+            <div className="p-[2.5px] rounded-[18px] bg-gradient-to-tr from-[#ffffff] via-[#ff9a00] to-[#ffffff] shadow-none md:shadow-[0_20px_40px_rgba(0,0,0,0.8),0_0_30px_rgba(255,145,77,0.3)] origin-center"
               style={{ animation: 'flag-flutter 4.5s ease-in-out infinite alternate' }}>
               <div className="rounded-[15px] overflow-hidden">
                 <img src="./images/poster3.png" alt="Burger Poster" className="w-full h-auto object-cover bg-[#2b1810] block" />
@@ -273,8 +273,7 @@ export default function Hero() {
             }}>
             <img
               src="./images/portrait.png?v=2"
-              className="absolute -bottom-[8%] left-1/2 -translate-x-1/2 h-[125%] w-auto max-w-none object-contain pointer-events-none transition-all duration-500"
-              style={{ filter: 'drop-shadow(0 0 6px rgba(5,5,15,0.9)) drop-shadow(0 0 2px rgba(5,5,15,0.9))' }}
+              className="absolute -bottom-[8%] left-1/2 -translate-x-1/2 h-[125%] w-auto max-w-none object-contain pointer-events-none transition-all duration-500 drop-shadow-none md:drop-shadow-[0_0_6px_rgba(5,5,15,0.9)]"
             />
           </div>
 
@@ -292,8 +291,7 @@ export default function Hero() {
           <div className="absolute inset-0 z-40 pointer-events-none" style={{ clipPath: 'polygon(-50% -50%, 150% -50%, 150% 35%, -50% 35%)' }}>
             <img
               src="./images/portrait.png?v=2"
-              className="absolute -bottom-[8%] left-1/2 -translate-x-1/2 h-[125%] w-auto max-w-none object-contain pointer-events-none transition-all duration-500"
-              style={{ filter: 'drop-shadow(0 0 6px rgba(5,5,15,0.9)) drop-shadow(0 0 2px rgba(5,5,15,0.9))' }}
+              className="absolute -bottom-[8%] left-1/2 -translate-x-1/2 h-[125%] w-auto max-w-none object-contain pointer-events-none transition-all duration-500 drop-shadow-none md:drop-shadow-[0_0_6px_rgba(5,5,15,0.9)]"
             />
           </div>
 
@@ -302,7 +300,7 @@ export default function Hero() {
           {/* Flash Sale - Góc Trái Dưới (Thu nhỏ về 28%) */}
           <div className="absolute bottom-[18%] -left-[12%] w-[28%] z-50 transition-transform duration-300 hover:scale-[1.08] hover:z-[60]"
             style={{ animation: 'custom-float-2 8s ease-in-out infinite' }}>
-            <div className="p-[2.5px] rounded-[18px] bg-gradient-to-tr from-[#ffffff] via-[#ff2a85] to-[#ffffff] shadow-[0_30px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(255,42,133,0.3)] origin-center"
+            <div className="p-[2.5px] rounded-[18px] bg-gradient-to-tr from-[#ffffff] via-[#ff2a85] to-[#ffffff] shadow-none md:shadow-[0_30px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(255,42,133,0.3)] origin-center"
               style={{ animation: 'flag-flutter 3.5s ease-in-out infinite alternate' }}>
               <div className="rounded-[15px] overflow-hidden">
                 <img src="./images/poster1.png" alt="Flash Sale" className="w-full h-auto object-cover bg-[#0d0722] block" />
@@ -313,7 +311,7 @@ export default function Hero() {
           {/* Lemonade - Góc Phải Dưới (Thu nhỏ về 25%) */}
           <div className="absolute bottom-[16%] -right-[2%] w-[25%] z-50 transition-transform duration-300 hover:scale-[1.08] hover:z-[60]"
             style={{ animation: 'custom-float-3 9s ease-in-out infinite' }}>
-            <div className="p-[2.5px] rounded-[18px] bg-gradient-to-tr from-[#ffffff] via-[#00c3ff] to-[#ffffff] shadow-[0_30px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(0,195,255,0.3)] origin-center"
+            <div className="p-[2.5px] rounded-[18px] bg-gradient-to-tr from-[#ffffff] via-[#00c3ff] to-[#ffffff] shadow-none md:shadow-[0_30px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(0,195,255,0.3)] origin-center"
               style={{ animation: 'flag-flutter 5s ease-in-out infinite alternate' }}>
               <div className="rounded-[15px] overflow-hidden">
                 <img src="./images/poster2.png" alt="Lemonade" className="w-full h-auto object-cover bg-[#0a2e1d] block" />
