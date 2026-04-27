@@ -58,7 +58,7 @@ const Header = () => {
   ) : null;
 
   return (
-    <header className="w-full flex justify-center z-50 sticky top-0 transition-all pt-2">
+    <header className="relative w-full flex justify-center z-[100] transition-all pt-2 md:sticky md:top-0 md:w-full">
       {/* Trong suốt hoàn toàn theo yêu cầu */}
       
       <div className="w-full max-w-[1440px] py-4 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 relative z-10">

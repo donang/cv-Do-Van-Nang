@@ -210,7 +210,7 @@ export default function SkillsAboutContact() {
   return (
     <section className="w-full grid lg:grid-cols-3 gap-6">
       {/* Skills */}
-      <div className="bg-[#0b0c10] border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-6 relative overflow-hidden" id="skills">
+      <div className="bg-[#0b0c10] border border-white/5 rounded-2xl p-5 md:p-8 flex flex-col gap-6 relative overflow-hidden" id="skills">
         <h3 className="text-[14px] font-extrabold flex items-center gap-2 font-sans tracking-widest uppercase">
           <Zap className="text-orange-500 drop-shadow-[0_0_10px_rgba(251,146,60,0.6)]" size={18} /> KỸ NĂNG CỦA MÌNH
         </h3>
@@ -225,7 +225,7 @@ export default function SkillsAboutContact() {
       </div>
 
       {/* Experience (formerly About) */}
-      <div className="bg-[#0b0c10] border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-6 relative overflow-hidden" id="about">
+      <div className="bg-[#0b0c10] border border-white/5 rounded-2xl p-5 md:p-8 flex flex-col gap-6 relative overflow-hidden" id="about">
         <h3 className="text-[14px] font-extrabold flex items-center gap-2 font-sans tracking-widest uppercase">
           <Briefcase className="text-orange-500 drop-shadow-[0_0_10px_rgba(251,146,60,0.6)]" size={18} /> KINH NGHIỆM LÀM VIỆC
         </h3>
@@ -287,7 +287,7 @@ export default function SkillsAboutContact() {
       </div>
 
       {/* Contact */}
-      <div className="bg-[#0b0c10] border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-6 relative overflow-hidden" id="contact">
+      <div className="bg-[#0b0c10] border border-white/5 rounded-2xl p-5 md:p-8 flex flex-col gap-6 relative overflow-hidden" id="contact">
         <h3 className="text-[14px] font-extrabold flex items-center gap-2 font-sans tracking-widest uppercase">
           <Send className="text-primary drop-shadow-[0_0_10px_rgba(255,42,133,0.6)]" size={18} /> LIÊN HỆ VỚI MÌNH
         </h3>

@@ -153,7 +153,7 @@ export default function Projects({ limit }) {
       </div>
 
       <div className="relative group -mt-2 md:-mt-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-5 min-h-[300px]">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 xl:gap-5 min-h-[300px]">
           {loading ? (
             <div className="col-span-full flex items-center justify-center text-primary h-48">
               <Loader2 className="animate-spin" size={32} />

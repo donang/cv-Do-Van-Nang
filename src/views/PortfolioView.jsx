@@ -100,7 +100,7 @@ export default function PortfolioView() {
       <SnakeEasterEgg />
       
       <Header />
-      <div className="w-full flex justify-center relative z-10 px-6 md:px-12">
+      <div className="w-full flex justify-center relative z-10 px-4 md:px-12">
         <main className="w-full max-w-[1440px] flex flex-col gap-8 md:gap-12 py-4 md:py-8">
           <Hero />
           <Stats />

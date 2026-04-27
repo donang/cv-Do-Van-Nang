@@ -88,10 +88,10 @@ export default function FAQ() {
 
                   <button 
                     onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                    className="w-full text-left px-6 py-6 md:px-10 md:py-8 flex items-center justify-between focus:outline-none cursor-pointer relative z-10"
+                    className="w-full text-left px-4 py-6 md:px-10 md:py-8 flex items-center justify-between focus:outline-none cursor-pointer relative z-10"
                     aria-expanded={isOpen}
                   >
-                    <div className="flex items-center gap-6 md:gap-8 pr-6">
+                    <div className="flex items-center gap-4 md:gap-8 pr-2 md:pr-6">
                       {/* Đánh Số Khổng Lồ Mờ ảo */}
                       <span className={`text-4xl md:text-5xl font-black italic transition-colors duration-500 select-none ${isOpen ? 'text-primary' : 'text-white/10 group-hover:text-white/20'}`}>
                         0{index + 1}
@@ -114,7 +114,7 @@ export default function FAQ() {
                   
                   {/* Nội dung xổ xuống */}
                   <div 
-                    className={`px-6 md:px-10 ml-[4.5rem] md:ml-[6.5rem] transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden ${
+                    className={`px-4 md:px-10 ml-[4.5rem] md:ml-[6.5rem] transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden ${
                       isOpen ? 'max-h-[400px] opacity-100 pb-8 md:pb-10 translate-y-0' : 'max-h-0 opacity-0 pb-0 translate-y-4'
                     }`}
                   >
