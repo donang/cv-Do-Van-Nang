@@ -64,14 +64,14 @@ const Header = () => {
       <div className="w-full max-w-[1440px] py-4 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 relative z-10">
         <div className="flex flex-col items-start w-full md:w-auto">
         <div className="flex items-center gap-1.5">
-            <span className="text-[28px] font-bold tracking-tight font-sans text-white leading-tight">
+            <span className="text-[22px] md:text-[28px] font-bold tracking-tight font-sans text-white leading-tight">
                Đỗ Văn
             </span>
-            <span className="text-[28px] font-bold tracking-tight font-sans bg-clip-text text-transparent bg-gradient-to-br from-purple-400 to-primary leading-tight pr-2 py-1">
+            <span className="text-[22px] md:text-[28px] font-bold tracking-tight font-sans bg-clip-text text-transparent bg-gradient-to-br from-purple-400 to-primary leading-tight pr-2 py-1">
                Năng
             </span>
         </div>
-        <span className="text-[10px] text-textMuted uppercase tracking-[0.2em] font-medium leading-none lg:-mt-1">
+        <span className="text-[9px] md:text-[10px] text-textMuted uppercase tracking-[0.2em] font-medium leading-none lg:-mt-1">
           Graphic Designer
         </span>
       </div>
