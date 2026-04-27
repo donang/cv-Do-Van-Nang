@@ -92,7 +92,7 @@ export default function Hero() {
             </span>
           </h1>
 
-          <div className="relative w-full text-center lg:text-left -mt-4 md:-mt-6 lg:-mt-8 xl:-mt-10">
+          <div className="relative w-full text-center lg:text-left -mt-2 md:-mt-3 lg:-mt-5 xl:-mt-7">
             <div className="relative inline-block">
               <h2 className="text-[3rem] sm:text-[3.8rem] md:text-[4.8rem] xl:text-[5.5rem] text-transparent bg-clip-text font-script py-2 relative z-10 tracking-normal leading-[1.3] filter drop-shadow-[0_0_15px_rgba(215,76,255,0.4)] whitespace-nowrap bg-[linear-gradient(90deg,#00c3ff,#d74cff,#ff2a85,#ffcaa6,#00c3ff,#d74cff)] bg-[length:200%_auto]" style={{ animation: 'gradient-flow 4s linear infinite' }}>
                 Graphic Designer
