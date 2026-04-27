@@ -80,21 +80,21 @@ export default function Hero() {
       {/* --- CỤM BÊN TRÁI: TEXT & BUTTONS --- */}
       <div className="flex flex-col gap-4 w-full z-20 justify-self-center lg:justify-self-start items-center lg:items-start text-center lg:text-left -mt-14 md:-mt-16 lg:-mt-20 xl:-mt-28 px-2 lg:px-0">
 
-        <div className="flex flex-col items-center lg:items-start w-full">
-          <p className="text-[13px] md:text-[14px] xl:text-[16px] text-transparent bg-clip-text bg-gradient-to-r from-[#e2e8f0] to-[#b8c2d1] font-medium tracking-[0.02em] mb-1 flex items-center justify-center lg:justify-start gap-2 relative z-20">
+        <div className="flex flex-col items-center lg:items-start w-full gap-1 lg:gap-2">
+          <p className="text-[13px] md:text-[14px] xl:text-[16px] text-transparent bg-clip-text bg-gradient-to-r from-[#e2e8f0] to-[#b8c2d1] font-medium tracking-[0.02em] flex items-center justify-center lg:justify-start gap-2 relative z-20 mb-2">
             Xin chào! Mình là <span className="animate-waving-hand inline-block origin-bottom-right drop-shadow-md">👋</span>
           </p>
 
-          <h1 className="text-[2.8rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.2rem] xl:text-[6rem] font-black tracking-tighter whitespace-nowrap z-10 flex flex-row items-center justify-center lg:justify-start" style={{ lineHeight: '1' }}>
+          <h1 className="text-[2.8rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.2rem] xl:text-[5.8rem] font-black tracking-normal whitespace-nowrap z-10 flex flex-row items-center justify-center lg:justify-start" style={{ lineHeight: '1.2' }}>
             <span className="text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)] mr-4">ĐỖ VĂN</span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff2a85] via-[#b266ff] to-[#00c3ff] drop-shadow-[0_4px_15px_rgba(255,42,133,0.5)]">
               NĂNG
             </span>
           </h1>
 
-          <div className="relative w-full text-center lg:text-left -mt-2 md:-mt-4 xl:-mt-6">
+          <div className="relative w-full text-center lg:text-left -mt-1 md:-mt-2 xl:-mt-3">
             <div className="relative inline-block">
-              <h2 className="text-[2.5rem] sm:text-[3.2rem] md:text-[4.2rem] xl:text-[4.8rem] text-transparent bg-clip-text font-script py-2 relative z-10 tracking-[0.02em] leading-[1.3] filter drop-shadow-[0_0_15px_rgba(215,76,255,0.4)] whitespace-nowrap bg-[linear-gradient(90deg,#00c3ff,#d74cff,#ff2a85,#ffcaa6,#00c3ff,#d74cff)] bg-[length:200%_auto]" style={{ animation: 'gradient-flow 4s linear infinite' }}>
+              <h2 className="text-[3rem] sm:text-[3.8rem] md:text-[4.8rem] xl:text-[5.5rem] text-transparent bg-clip-text font-script py-2 relative z-10 tracking-normal leading-[1.3] filter drop-shadow-[0_0_15px_rgba(215,76,255,0.4)] whitespace-nowrap bg-[linear-gradient(90deg,#00c3ff,#d74cff,#ff2a85,#ffcaa6,#00c3ff,#d74cff)] bg-[length:200%_auto]" style={{ animation: 'gradient-flow 4s linear infinite' }}>
                 Graphic Designer
               </h2>
               {/* Đính kim cương TRỰC TIẾP LÊN CHỮ */}
