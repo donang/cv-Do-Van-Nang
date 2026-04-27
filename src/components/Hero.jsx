@@ -85,14 +85,14 @@ export default function Hero() {
             Xin chào! Mình là <span className="animate-waving-hand inline-block origin-bottom-right drop-shadow-md">👋</span>
           </p>
 
-          <h1 className="text-[2.8rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.2rem] xl:text-[5.8rem] font-black tracking-normal whitespace-nowrap z-10 flex flex-row items-center justify-center lg:justify-start" style={{ lineHeight: '1.2' }}>
+          <h1 className="text-[2.8rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.2rem] xl:text-[5.8rem] font-extrabold tracking-normal whitespace-nowrap z-10 flex flex-row items-center justify-center lg:justify-start" style={{ lineHeight: '1.1' }}>
             <span className="text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)] mr-4">ĐỖ VĂN</span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff2a85] via-[#b266ff] to-[#00c3ff] drop-shadow-[0_4px_15px_rgba(255,42,133,0.5)]">
               NĂNG
             </span>
           </h1>
 
-          <div className="relative w-full text-center lg:text-left -mt-1 md:-mt-2 xl:-mt-3">
+          <div className="relative w-full text-center lg:text-left -mt-2 md:-mt-4 xl:-mt-5">
             <div className="relative inline-block">
               <h2 className="text-[3rem] sm:text-[3.8rem] md:text-[4.8rem] xl:text-[5.5rem] text-transparent bg-clip-text font-script py-2 relative z-10 tracking-normal leading-[1.3] filter drop-shadow-[0_0_15px_rgba(215,76,255,0.4)] whitespace-nowrap bg-[linear-gradient(90deg,#00c3ff,#d74cff,#ff2a85,#ffcaa6,#00c3ff,#d74cff)] bg-[length:200%_auto]" style={{ animation: 'gradient-flow 4s linear infinite' }}>
                 Graphic Designer
