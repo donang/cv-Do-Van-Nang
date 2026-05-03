@@ -89,8 +89,10 @@ export default function Hero() {
 
           <h1 className="text-[2rem] min-[380px]:text-[2.3rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.2rem] xl:text-[5.8rem] font-extrabold tracking-tight whitespace-nowrap z-10 flex flex-row items-center justify-center lg:justify-start" style={{ lineHeight: '1.1' }}>
             <span className="text-white drop-shadow-none md:drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)] mr-2 md:mr-4">ĐỖ VĂN</span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff2a85] via-[#b266ff] to-[#00c3ff] drop-shadow-none md:drop-shadow-[0_4px_15px_rgba(255,42,133,0.5)]">
-              NĂNG
+            <span className="drop-shadow-none md:drop-shadow-[0_4px_15px_rgba(255,42,133,0.5)]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff2a85] via-[#b266ff] to-[#00c3ff]">
+                NĂNG
+              </span>
             </span>
           </h1>
 
