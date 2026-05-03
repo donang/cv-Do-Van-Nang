@@ -6,5 +6,15 @@
     </linearGradient>
   </defs>
   <rect width="48" height="48" rx="12" fill="url(#bg)"/>
-  <text x="24" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="30" fill="white">N</text>
+  <!-- Pen tool / design icon -->
+  <g transform="translate(10, 10)" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Pen nib -->
+    <path d="M14 2L26 14L16 24L6 26L8 16L18 6" fill="rgba(255,255,255,0.15)"/>
+    <path d="M14 2L26 14"/>
+    <path d="M8 16L16 24"/>
+    <path d="M6 26L8 16L18 6L26 14L16 24L6 26Z"/>
+    <!-- Star sparkle -->
+    <circle cx="22" cy="22" r="1.5" fill="white" stroke="none"/>
+    <circle cx="4" cy="4" r="1" fill="white" stroke="none"/>
+  </g>
 </svg>
