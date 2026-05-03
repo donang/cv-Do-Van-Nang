@@ -85,9 +85,30 @@ export default function Projects({ limit }) {
 
   const displayProjects = dbProjects.length > 0 ? dbProjects : defaultProjects;
 
-  const filteredProjects = activeTab === 'Tất cả'
+  const getCategoryWeight = (cat) => {
+    if (!cat) return 99;
+    const cleanCat = cat.replace(' Design', '').trim();
+    const order = ['Poster', 'Banner', 'Social Media', 'Branding', 'Thumbnail', 'Others'];
+    const idx = order.indexOf(cleanCat);
+    return idx === -1 ? 99 : idx;
+  };
+
+  let filteredProjects = activeTab === 'Tất cả'
     ? displayProjects
     : displayProjects.filter(p => p.category === activeTab || p.category?.replace(' Design', '') === activeTab || p.category === activeTab + ' Design');
+
+  if (activeTab === 'Tất cả') {
+    filteredProjects = [...filteredProjects].sort((a, b) => {
+      const weightA = getCategoryWeight(a.category);
+      const weightB = getCategoryWeight(b.category);
+      if (weightA !== weightB) {
+        return weightA - weightB; // Nhóm theo thể loại: Poster -> Banner -> ...
+      }
+      return (a.createdAt || 0) - (b.createdAt || 0); // Mới nhất xếp bên phải
+    });
+  } else {
+    filteredProjects = [...filteredProjects].sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+  }
 
   const finalProjects = limit ? filteredProjects.slice(0, limit) : filteredProjects;
 
