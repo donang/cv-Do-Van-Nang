@@ -1004,11 +1004,23 @@ export default function AdminView() {
            >
               
               <div className="flex justify-between items-center mb-6 border-b border-white/5 pb-4">
-                 <div>
-                   <h2 className="text-2xl md:text-3xl font-bold flex flex-wrap gap-3 items-center">
-                     {editingProject.title} 
-                     <span className="px-3 py-1.5 bg-white/5 text-white/80 text-[10px] uppercase tracking-widest rounded-xl border border-white/5">{editingProject.images?.length || 1} ẢNH</span>
-                   </h2>
+                 <div className="flex-1 pr-4">
+                   <div className="flex flex-col md:flex-row md:items-center gap-3">
+                     <input 
+                        type="text" 
+                        value={editingProject.title} 
+                        onChange={(e) => setEditingProject({...editingProject, title: e.target.value})}
+                        onBlur={async (e) => {
+                           const val = e.target.value.trim();
+                           if (val) {
+                             await updateDoc(doc(db, 'projects', editingProject.id), { title: val });
+                           }
+                        }}
+                        className="text-2xl md:text-3xl font-bold bg-transparent outline-none border-b-2 border-transparent hover:border-white/20 focus:border-white/50 transition-colors w-full max-w-[500px] pb-1"
+                        title="Nhấn để sửa tên dự án"
+                     />
+                     <span className="px-3 py-1.5 bg-white/5 text-white/80 text-[10px] uppercase tracking-widest rounded-xl border border-white/5 w-fit shrink-0 whitespace-nowrap">{editingProject.images?.length || 1} ẢNH</span>
+                   </div>
                    <p className="text-white/50 text-[10px] md:text-xs uppercase tracking-[0.3em] font-semibold mt-2">{editingProject.category}</p>
                  </div>
                  <button onClick={() => setEditingProject(null)} className="w-12 h-12 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 flex items-center justify-center transition-all text-white/50 hover:text-white">
