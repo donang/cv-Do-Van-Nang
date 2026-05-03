@@ -222,6 +222,8 @@ export default function AdminView() {
         const qSearch = query(collection(db, 'projects'), where('title', '==', projectTitleTerm));
         const querySnapshot = await getDocs(qSearch);
 
+        let projectToEdit = null;
+
         if (!querySnapshot.empty) {
             const existingDoc = querySnapshot.docs[0];
             const existingData = existingDoc.data();
@@ -233,19 +235,25 @@ export default function AdminView() {
             }
             const newlyMergedImages = [...oldImages, ...uploadedUrls];
             await updateDoc(doc(db, 'projects', existingDoc.id), { images: newlyMergedImages });
+            projectToEdit = { id: existingDoc.id, ...existingData, images: newlyMergedImages };
         } else {
-            await addDoc(collection(db, 'projects'), {
+            const newProjectData = {
                 title: projectTitleTerm,
                 category: projectCategory,
                 images: uploadedUrls,
                 createdAt: new Date().getTime()
-            });
+            };
+            const newDocRef = await addDoc(collection(db, 'projects'), newProjectData);
+            projectToEdit = { id: newDocRef.id, ...newProjectData };
         }
 
         setProgress(100);
         setTimeout(() => {
             setUploading(false);
             setProjectTitle('');
+            if (projectToEdit) {
+                setEditingProject(projectToEdit);
+            }
         }, 500);
     } catch (err) {
         console.error(err);
