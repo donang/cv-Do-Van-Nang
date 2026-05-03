@@ -1079,15 +1079,15 @@ export default function AdminView() {
                    </div>
                    <p className="text-white/50 text-[10px] md:text-xs uppercase tracking-[0.3em] font-semibold mt-2">{editingProject.category}</p>
                  </div>
-                 <div className="flex items-center gap-3">
+                 <div className="flex items-center gap-2 md:gap-3">
                    {selectedImageIndexes.length > 0 && (
-                     <button onClick={() => setShowMoveModal(true)} className="px-5 h-12 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-[0_0_15px_rgba(56,189,248,0.3)] hover:shadow-[0_0_25px_rgba(56,189,248,0.6)] hover:-translate-y-0.5 font-bold text-sm transition-all duration-300 flex items-center gap-2 border border-white/20">
-                       <FolderHeart size={18} className="animate-bounce" />
-                       <span className="whitespace-nowrap uppercase tracking-wider">Chuyển {selectedImageIndexes.length} Ảnh</span>
+                     <button onClick={() => setShowMoveModal(true)} className="px-3 md:px-5 h-10 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-[0_0_15px_rgba(56,189,248,0.3)] hover:shadow-[0_0_25px_rgba(56,189,248,0.6)] hover:-translate-y-0.5 font-bold text-[10px] md:text-sm transition-all duration-300 flex items-center gap-1.5 md:gap-2 border border-white/20">
+                       <FolderHeart size={16} className="animate-bounce md:w-[18px] md:h-[18px]" />
+                       <span className="whitespace-nowrap uppercase tracking-wider">Chuyển {selectedImageIndexes.length}</span>
                      </button>
                    )}
-                   <button onClick={() => { setEditingProject(null); setSelectedImageIndexes([]); setShowMoveModal(false); }} className="w-12 h-12 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 flex items-center justify-center transition-all text-white/50 hover:text-white hover:scale-105">
-                     <span className="font-bold text-xl pointer-events-none">X</span>
+                   <button onClick={() => { setEditingProject(null); setSelectedImageIndexes([]); setShowMoveModal(false); }} className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 flex items-center justify-center transition-all text-white/50 hover:text-white hover:scale-105 shrink-0">
+                     <span className="font-bold text-lg md:text-xl pointer-events-none">X</span>
                    </button>
                  </div>
               </div>
@@ -1120,10 +1120,10 @@ export default function AdminView() {
                         {/* Beautiful Checkbox UI */}
                         <div 
                           onClick={(e) => { e.stopPropagation(); handleToggleSelectImage(idx); }}
-                          className={`absolute top-4 left-4 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 z-20 ${selectedImageIndexes.includes(idx) ? 'bg-gradient-to-tr from-blue-600 to-cyan-400 shadow-[0_0_20px_rgba(56,189,248,0.6)] scale-110 border border-white/30' : 'bg-black/30 border-2 border-white/20 hover:bg-black/60 hover:border-white/50 hover:scale-105 backdrop-blur-md'}`}
+                          className={`absolute top-2 left-2 md:top-4 md:left-4 w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 z-20 ${selectedImageIndexes.includes(idx) ? 'bg-gradient-to-tr from-blue-600 to-cyan-400 shadow-[0_0_20px_rgba(56,189,248,0.6)] scale-110 border border-white/30' : 'bg-black/30 border md:border-2 border-white/20 hover:bg-black/60 hover:border-white/50 hover:scale-105 backdrop-blur-md'}`}
                           title="Chọn để di chuyển"
                         >
-                          <CheckCircle2 size={20} strokeWidth={selectedImageIndexes.includes(idx) ? 2.5 : 2} className={selectedImageIndexes.includes(idx) ? 'text-white' : 'text-transparent'} />
+                          <CheckCircle2 size={16} strokeWidth={selectedImageIndexes.includes(idx) ? 2.5 : 2} className={`${selectedImageIndexes.includes(idx) ? 'text-white' : 'text-transparent'} md:w-5 md:h-5`} />
                         </div>
 
                         {/* Overlay with controls */}
