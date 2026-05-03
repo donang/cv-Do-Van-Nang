@@ -1117,17 +1117,19 @@ export default function AdminView() {
                      <div key={idx} className="relative group/editcard rounded-2xl overflow-hidden h-48 md:h-56 lg:h-64 border border-white/5 hover:border-white/20 transition-all bg-[#1a1a1a] flex items-center justify-center">
                         <img src={imgStr} className="w-full h-full object-contain p-2" />
                         
+                        {/* Checkbox Always Visible for Selection */}
+                        <div 
+                          onClick={(e) => { e.stopPropagation(); handleToggleSelectImage(idx); }}
+                          className={`absolute top-3 left-3 px-3 py-1.5 rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all border z-20 shadow-lg ${selectedImageIndexes.includes(idx) ? 'bg-blue-500 border-blue-400 text-white scale-105' : 'bg-black/80 border-white/30 text-white/60 hover:border-white/80 hover:text-white backdrop-blur-md'}`}
+                          title="Chọn để di chuyển"
+                        >
+                          <CheckCircle2 size={16} />
+                          <span className="text-[10px] uppercase tracking-widest font-bold">{selectedImageIndexes.includes(idx) ? 'Đã Chọn' : 'Chọn'}</span>
+                        </div>
+
                         {/* Overlay with controls */}
                         <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 ${selectedImageIndexes.includes(idx) ? 'opacity-100' : 'opacity-0 group-hover/editcard:opacity-100'}`}>
-                          
-                          {/* Checkbox for selecting */}
-                          <div 
-                            onClick={(e) => { e.stopPropagation(); handleToggleSelectImage(idx); }}
-                            className={`absolute top-3 left-3 w-8 h-8 rounded-xl flex items-center justify-center cursor-pointer transition-all border z-10 ${selectedImageIndexes.includes(idx) ? 'bg-blue-500 border-blue-400 text-white scale-110' : 'bg-black/60 border-white/40 text-transparent hover:border-white/80 hover:text-white/40'}`}
-                            title="Chọn để di chuyển"
-                          >
-                            <CheckCircle2 size={16} />
-                          </div>
+
 
                           {/* Delete button */}
                           <button 
