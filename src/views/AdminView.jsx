@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Upload, Lock, AlertCircle, CheckCircle2, Image as ImageIcon, Trash2, LayoutDashboard, Settings as SettingsIcon, LogOut, BarChart3, FolderHeart, ImageIcon as MImageIcon, ChevronDown, ChevronLeft, ChevronRight, User, PlusCircle, Save, Briefcase, Calendar, MessageCircle, ArrowLeft, ArrowRight, Star } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Upload, Lock, AlertCircle, CheckCircle2, Image as ImageIcon, Trash2, LayoutDashboard, Settings as SettingsIcon, LogOut, BarChart3, FolderHeart, ImageIcon as MImageIcon, ChevronDown, ChevronLeft, ChevronRight, User, PlusCircle, Save, Briefcase, Calendar, MessageCircle, ArrowLeft, ArrowRight, Star, GripVertical } from 'lucide-react';
 import { collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, getDocs, updateDoc, where, setDoc } from 'firebase/firestore';
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 import { db, auth } from '../firebase';
@@ -43,6 +43,13 @@ export default function AdminView() {
   const [editingProject, setEditingProject] = useState(null);
   const [selectedImageIndexes, setSelectedImageIndexes] = useState([]);
   const [showMoveModal, setShowMoveModal] = useState(false);
+  const [selectedMoveTarget, setSelectedMoveTarget] = useState(null);
+
+  // Drag-and-drop state for image reordering
+  const dragIdxRef = useRef(null);
+  const dragOverIdxRef = useRef(null);
+  const [dragActiveIdx, setDragActiveIdx] = useState(null);
+  const [dropTargetIdx, setDropTargetIdx] = useState(null);
 
   // Tab State
   const [activeTab, setActiveTab] = useState('portfolio'); // 'portfolio' | 'profile'
@@ -345,14 +352,43 @@ export default function AdminView() {
      setSavingProfile(false);
   };
 
-  // Swap vị trí 2 ảnh trong mảng và lưu vào Firestore
-  const handleMoveImage = async (project, fromIdx, toIdx) => {
-    if (toIdx < 0 || toIdx >= project.images.length) return;
-    const newImages = [...project.images];
-    [newImages[fromIdx], newImages[toIdx]] = [newImages[toIdx], newImages[fromIdx]];
-    await updateDoc(doc(db, 'projects', project.id), { images: newImages });
-    setEditingProject({ ...project, images: newImages });
-  };
+  // Drag-and-drop: reorder images in array and save to Firestore
+  const handleDragStart = useCallback((idx) => {
+    dragIdxRef.current = idx;
+    setDragActiveIdx(idx);
+  }, []);
+
+  const handleDragOver = useCallback((e, idx) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    dragOverIdxRef.current = idx;
+    setDropTargetIdx(idx);
+  }, []);
+
+  const handleDragEnd = useCallback(() => {
+    setDragActiveIdx(null);
+    setDropTargetIdx(null);
+    dragIdxRef.current = null;
+    dragOverIdxRef.current = null;
+  }, []);
+
+  const handleDropImage = useCallback(async (e) => {
+    e.preventDefault();
+    const fromIdx = dragIdxRef.current;
+    const toIdx = dragOverIdxRef.current;
+    setDragActiveIdx(null);
+    setDropTargetIdx(null);
+    dragIdxRef.current = null;
+    dragOverIdxRef.current = null;
+
+    if (fromIdx === null || toIdx === null || fromIdx === toIdx || !editingProject) return;
+
+    const newImages = [...editingProject.images];
+    const [moved] = newImages.splice(fromIdx, 1);
+    newImages.splice(toIdx, 0, moved);
+    setEditingProject({ ...editingProject, images: newImages });
+    await updateDoc(doc(db, 'projects', editingProject.id), { images: newImages });
+  }, [editingProject]);
 
   const filterCategoriesMenu = ['All', ...new Set(projects.map(p => p.category))];
   const filteredProjects = activeFilter === 'All' ? projects : projects.filter(p => p.category === activeFilter);
@@ -1077,7 +1113,25 @@ export default function AdminView() {
                      />
                      <span className="px-3 py-1.5 bg-white/5 text-white/80 text-[10px] uppercase tracking-widest rounded-xl border border-white/5 w-fit shrink-0 whitespace-nowrap">{editingProject.images?.length || 1} ẢNH</span>
                    </div>
-                   <p className="text-white/50 text-[10px] md:text-xs uppercase tracking-[0.3em] font-semibold mt-2">{editingProject.category}</p>
+                   <div className="flex items-center gap-2 mt-2">
+                     <select
+                        value={editingProject.category || ''}
+                        onChange={async (e) => {
+                           const newCat = e.target.value;
+                           setEditingProject({...editingProject, category: newCat});
+                           await updateDoc(doc(db, 'projects', editingProject.id), { category: newCat });
+                        }}
+                        className="text-white/50 text-[10px] md:text-xs uppercase tracking-[0.3em] font-semibold bg-transparent outline-none cursor-pointer border-b border-transparent hover:border-white/20 focus:border-white/50 transition-colors appearance-none pb-0.5"
+                        title="Nhấn để sửa danh mục"
+                     >
+                        {uploadCategories.map(cat => (
+                           <option key={cat} value={cat} className="bg-[#1a1a1a] text-white tracking-normal normal-case font-sans">
+                              {cat}
+                           </option>
+                        ))}
+                     </select>
+                     <div className="pointer-events-none text-white/30 text-xs">▼</div>
+                   </div>
                  </div>
                  <div className="flex items-center gap-2 md:gap-3">
                    {selectedImageIndexes.length > 0 && (
@@ -1114,12 +1168,30 @@ export default function AdminView() {
                   </div>
 
                   {editingProject.images?.map((imgStr, idx) => (
-                     <div key={idx} className={`relative group/editcard rounded-3xl overflow-hidden h-48 md:h-56 lg:h-64 border transition-all duration-500 flex items-center justify-center ${selectedImageIndexes.includes(idx) ? 'bg-[#0a1526] border-blue-500 shadow-[0_0_30px_rgba(59,130,246,0.3)] ring-2 ring-blue-500/50 scale-[0.97]' : 'bg-[#1a1a1a] border-white/5 hover:border-white/20'}`}>
-                        <img src={imgStr} className={`w-full h-full object-contain p-2 transition-all duration-500 ${selectedImageIndexes.includes(idx) ? 'scale-90 opacity-80' : 'group-hover/editcard:scale-105'}`} />
+                     <div 
+                        key={idx} 
+                        draggable
+                        onDragStart={(e) => {
+                          e.dataTransfer.effectAllowed = 'move';
+                          e.dataTransfer.setData('text/plain', idx);
+                          handleDragStart(idx);
+                        }}
+                        onDragOver={(e) => handleDragOver(e, idx)}
+                        onDrop={handleDropImage}
+                        onDragEnd={handleDragEnd}
+                        className={`relative group/editcard rounded-3xl overflow-hidden h-48 md:h-56 lg:h-64 border transition-all duration-300 flex items-center justify-center cursor-grab active:cursor-grabbing
+                          ${dragActiveIdx === idx ? 'opacity-40 scale-95 border-dashed border-white/30' : ''}
+                          ${dropTargetIdx === idx && dragActiveIdx !== null && dragActiveIdx !== idx ? 'border-white/60 bg-white/10 shadow-[0_0_30px_rgba(255,255,255,0.15)] scale-[1.03]' : ''}
+                          ${selectedImageIndexes.includes(idx) ? 'bg-[#0a1526] border-blue-500 shadow-[0_0_30px_rgba(59,130,246,0.3)] ring-2 ring-blue-500/50 scale-[0.97]' : 'bg-[#1a1a1a] border-white/5 hover:border-white/20'}
+                        `}
+                     >
+                        <img src={imgStr} draggable={false} className={`w-full h-full object-contain p-2 transition-all duration-500 pointer-events-none ${selectedImageIndexes.includes(idx) ? 'scale-90 opacity-80' : 'group-hover/editcard:scale-105'}`} />
                         
                         {/* Beautiful Checkbox UI */}
                         <div 
                           onClick={(e) => { e.stopPropagation(); handleToggleSelectImage(idx); }}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          draggable={false}
                           className={`absolute top-2 left-2 md:top-4 md:left-4 w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 z-20 ${selectedImageIndexes.includes(idx) ? 'bg-gradient-to-tr from-blue-600 to-cyan-400 shadow-[0_0_20px_rgba(56,189,248,0.6)] scale-110 border border-white/30' : 'bg-black/30 border md:border-2 border-white/20 hover:bg-black/60 hover:border-white/50 hover:scale-105 backdrop-blur-md'}`}
                           title="Chọn để di chuyển"
                         >
@@ -1127,43 +1199,35 @@ export default function AdminView() {
                         </div>
 
                         {/* Overlay with controls */}
-                        <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 ${selectedImageIndexes.includes(idx) ? 'opacity-100' : 'opacity-0 group-hover/editcard:opacity-100'}`}>
+                        <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 pointer-events-none ${selectedImageIndexes.includes(idx) ? 'opacity-100' : 'opacity-0 group-hover/editcard:opacity-100'}`}>
 
-
-                          {/* Delete button */}
-                          <button 
-                             onClick={(e) => { e.stopPropagation(); handleRemoveSingleImage(editingProject, idx); }}
-                             className="absolute top-3 right-3 w-10 h-10 rounded-xl bg-red-500/90 text-white flex items-center justify-center hover:bg-red-600 transition-all border border-red-500/20"
-                             title="Xóa ảnh"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                          
-                          {/* Move buttons */}
-                          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                            <button
-                              onClick={(e) => { e.stopPropagation(); handleMoveImage(editingProject, idx, idx - 1); }}
-                              disabled={idx === 0}
-                              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${idx === 0 ? 'bg-white/5 text-white/20 cursor-not-allowed border border-white/5' : 'bg-[#222] text-white hover:bg-[#333] border border-white/10'}`}
-                              title="Sang trái (trong dự án)"
-                            >
-                              <ArrowLeft size={16} />
-                            </button>
-                            <button
-                              onClick={(e) => { e.stopPropagation(); handleMoveImage(editingProject, idx, idx + 1); }}
-                              disabled={idx === editingProject.images.length - 1}
-                              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${idx === editingProject.images.length - 1 ? 'bg-white/5 text-white/20 cursor-not-allowed border border-white/5' : 'bg-[#222] text-white hover:bg-[#333] border border-white/10'}`}
-                              title="Sang phải (trong dự án)"
-                            >
-                              <ArrowRight size={16} />
-                            </button>
+                          {/* Drag handle indicator */}
+                          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 backdrop-blur-sm">
+                            <GripVertical size={14} className="text-white/70 rotate-90" />
+                            <span className="text-[9px] uppercase tracking-widest font-bold text-white/60">Kéo thả</span>
                           </div>
                         </div>
+
+                        {/* Delete button - always interactive */}
+                        <button 
+                           onClick={(e) => { e.stopPropagation(); handleRemoveSingleImage(editingProject, idx); }}
+                           onMouseDown={(e) => e.stopPropagation()}
+                           draggable={false}
+                           className="absolute top-3 right-3 w-10 h-10 rounded-xl bg-red-500/90 text-white flex items-center justify-center hover:bg-red-600 transition-all border border-red-500/20 z-20 opacity-0 group-hover/editcard:opacity-100"
+                           title="Xóa ảnh"
+                        >
+                          <Trash2 size={16} />
+                        </button>
                         
                         {/* Position badge */}
-                        <div className="absolute top-3 left-3 w-8 h-8 rounded-xl bg-black/60 flex items-center justify-center text-white font-bold text-[10px] border border-white/10 pointer-events-none opacity-0">
+                        <div className="absolute bottom-3 right-3 w-8 h-8 rounded-xl bg-black/60 flex items-center justify-center text-white font-bold text-[10px] border border-white/10 pointer-events-none opacity-0 group-hover/editcard:opacity-100">
                           {idx + 1}
                         </div>
+
+                        {/* Drop target indicator line */}
+                        {dropTargetIdx === idx && dragActiveIdx !== null && dragActiveIdx !== idx && (
+                          <div className="absolute inset-y-2 left-0 w-1 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)] z-30" />
+                        )}
                      </div>
                   ))}
 
@@ -1189,7 +1253,7 @@ export default function AdminView() {
             {showMoveModal && (
               <div 
                 className="absolute inset-0 z-[120] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 rounded-[2rem]"
-                onClick={() => setShowMoveModal(false)}
+                onClick={() => { setShowMoveModal(false); setSelectedMoveTarget(null); }}
               >
                  <div 
                    className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-6 md:p-8 w-full max-w-lg shadow-2xl flex flex-col max-h-[80%]"
@@ -1199,17 +1263,31 @@ export default function AdminView() {
                       <FolderHeart size={24} />
                       <h3 className="text-xl md:text-2xl font-bold text-white">Chuyển ảnh sang dự án khác</h3>
                     </div>
-                    <p className="text-white/50 mb-6 text-sm">Bạn đang chọn {selectedImageIndexes.length} ảnh. Hãy chọn dự án đích để di chuyển tới:</p>
+                    <p className="text-white/50 mb-6 text-sm">Bạn đang chọn {selectedImageIndexes.length} ảnh. Hãy chọn dự án đích rồi bấm <strong className="text-white">Xác Nhận</strong>:</p>
                     
                     <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-3 mb-6 pr-2">
                        {projects.filter(p => p.id !== editingProject.id).map(p => (
                          <button 
                            key={p.id} 
-                           onClick={() => handleMoveSelectedImages(p.id)}
-                           className="w-full text-left px-5 py-4 rounded-2xl bg-white/5 hover:bg-blue-500/20 border border-white/5 hover:border-blue-500/50 transition-all group flex flex-col"
+                           onClick={() => setSelectedMoveTarget(p.id)}
+                           className={`w-full text-left px-5 py-4 rounded-2xl border transition-all group flex items-center gap-4 ${
+                             selectedMoveTarget === p.id 
+                               ? 'bg-blue-500/20 border-blue-500/60 ring-2 ring-blue-500/30 shadow-[0_0_20px_rgba(59,130,246,0.2)]' 
+                               : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20'
+                           }`}
                          >
-                           <span className="text-white font-semibold text-lg group-hover:text-blue-400 transition-colors truncate">{p.title || 'Không tên'}</span>
-                           <span className="text-white/40 text-[10px] uppercase tracking-[0.2em] font-semibold mt-1">{p.category} • {p.images?.length || 0} ẢNH</span>
+                           <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all ${
+                             selectedMoveTarget === p.id 
+                               ? 'bg-blue-500 text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]' 
+                               : 'bg-white/5 text-white/30 border border-white/10'
+                           }`}>
+                             <CheckCircle2 size={18} className={selectedMoveTarget === p.id ? 'opacity-100' : 'opacity-0'} />
+                             {selectedMoveTarget !== p.id && <FolderHeart size={16} />}
+                           </div>
+                           <div className="flex flex-col min-w-0">
+                             <span className={`font-semibold text-lg truncate transition-colors ${selectedMoveTarget === p.id ? 'text-blue-400' : 'text-white group-hover:text-white'}`}>{p.title || 'Không tên'}</span>
+                             <span className="text-white/40 text-[10px] uppercase tracking-[0.2em] font-semibold mt-0.5">{p.category} • {p.images?.length || 0} ẢNH</span>
+                           </div>
                          </button>
                        ))}
                        {projects.filter(p => p.id !== editingProject.id).length === 0 && (
@@ -1219,8 +1297,30 @@ export default function AdminView() {
                        )}
                     </div>
                     
-                    <div className="flex justify-end pt-4 border-t border-white/5">
-                      <button onClick={() => setShowMoveModal(false)} className="px-6 py-3 rounded-xl bg-white/10 text-white/80 font-semibold hover:bg-white/20 hover:text-white transition-colors">Hủy & Quay Lại</button>
+                    <div className="flex justify-end gap-3 pt-4 border-t border-white/5">
+                      <button 
+                        onClick={() => { setShowMoveModal(false); setSelectedMoveTarget(null); }} 
+                        className="px-6 py-3 rounded-xl bg-white/10 text-white/80 font-semibold hover:bg-white/20 hover:text-white transition-colors text-xs uppercase tracking-widest"
+                      >
+                        Hủy
+                      </button>
+                      <button 
+                        onClick={() => {
+                          if (selectedMoveTarget) {
+                            handleMoveSelectedImages(selectedMoveTarget);
+                            setSelectedMoveTarget(null);
+                          }
+                        }} 
+                        disabled={!selectedMoveTarget}
+                        className={`px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center gap-2 ${
+                          selectedMoveTarget 
+                            ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] hover:scale-[1.02] active:scale-[0.98]' 
+                            : 'bg-white/5 text-white/20 cursor-not-allowed border border-white/5'
+                        }`}
+                      >
+                        <CheckCircle2 size={16} />
+                        Xác Nhận Chuyển
+                      </button>
                     </div>
                  </div>
               </div>
